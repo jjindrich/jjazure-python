@@ -9,18 +9,7 @@ from azure.keyvault.secrets import SecretClient
 from azure.identity import ManagedIdentityCredential
 # pip install azure-identity
 
-def get_token():
-    # this url is hard-code and only available to services with identity.
-    oauth_token = requests.get(
-        'http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https%3A%2F%2Fvault.azure.net',
-        headers={'Metadata': 'True'}).json()
-    return oauth_token['access_token']
-
-
-print("1. GET IDENTITY")
-token = get_token()
-
-print("2. GET KEYVAULT SECRET")
+print("1. GET KEYVAULT SECRET")
 try:
     credential=ManagedIdentityCredential()
     #kv="https://o2keyvault.vault.azure.net/"
@@ -34,7 +23,7 @@ except Exception as ex:
     print('Exception:')
     print(ex)
 
-print("3. CREATE STORAGE CONTAINER")
+print("2. CREATE STORAGE CONTAINER")
 try:
     # privatelink
     connstr = secret.value
